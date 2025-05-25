@@ -2,6 +2,7 @@ package com.smartjob.creacionusuarios.web.controller;
 
 import com.smartjob.creacionusuarios.web.dto.UsuarioRequest;
 import com.smartjob.creacionusuarios.web.dto.UsuarioResponse;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,7 +14,7 @@ import java.util.UUID;
 @RestController
 public class UsuarioController {
     @PostMapping("/usuarios")
-    public UsuarioResponse crearUsuario(@RequestBody UsuarioRequest request) {
+    public UsuarioResponse crearUsuario(@Valid @RequestBody UsuarioRequest request) {
         String dateString = "2025-05-24 20:30:00";
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         LocalDateTime fecha = LocalDateTime.parse(dateString, formatter);
