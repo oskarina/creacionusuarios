@@ -1,10 +1,10 @@
 package com.smartjob.creacionusuarios.web.repository;
 
+import com.smartjob.creacionusuarios.domain.repository.UsuarioRepository;
 import com.smartjob.creacionusuarios.persistence.dto.Usuario;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.data.repository.CrudRepository;
 
 import java.util.Optional;
 import java.util.stream.StreamSupport;
@@ -15,14 +15,14 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 public class UsuarioRepositoryTest {
 
     @Autowired
-    private CrudRepository<Usuario, Long> usuarioRepository;
+    private UsuarioRepository usuarioRepository;
 
     @Test
     public void testGuardarUsuario() {
         // given
         Usuario usuario = new Usuario();
-        usuario.setName("Carlos Pérez");
-        usuario.setEmail("carlos@example.com");
+        usuario.setName("Juan Rodriguez");
+        usuario.setEmail("Juan@rodriguez.org");
         usuario.setPassword("hunter2");
 
         usuarioRepository.save(usuario);
@@ -33,6 +33,6 @@ public class UsuarioRepositoryTest {
 
         // then
         assertThat(encontrado).isPresent();
-        assertThat(encontrado.orElseThrow().getName()).isEqualTo("Carlos Pérez");
+        assertThat(encontrado.orElseThrow().getName()).isEqualTo("Juan Rodriguez");
     }
 }
