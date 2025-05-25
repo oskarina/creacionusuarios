@@ -1,6 +1,5 @@
-package com.smartjob.creacionusuarios.web.repository;
+package com.smartjob.creacionusuarios.domain.repository;
 
-import com.smartjob.creacionusuarios.domain.repository.UsuarioRepository;
 import com.smartjob.creacionusuarios.persistence.dto.Usuario;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
