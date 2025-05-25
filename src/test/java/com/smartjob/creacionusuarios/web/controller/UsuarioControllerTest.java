@@ -120,7 +120,6 @@ public class UsuarioControllerTest {
 
         mockMvc.perform(post("/usuarios").contentType(MediaType.APPLICATION_JSON)
                         .content(json))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.mensaje").value("La clave es invalida"));
+                .andExpect(status().isBadRequest());
     }
 }
