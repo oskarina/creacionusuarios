@@ -100,4 +100,27 @@ public class UsuarioControllerTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.mensaje").value("El correo ya está registrado"));
     }
+
+    @Test
+    void testClaveInvalida() throws Exception {
+        String json = """
+                {
+                "name": "Juan Rodriguez",
+                "email": "juan@rodriguez.org",
+                "password": "claveinvalida",
+                "phones": [
+                {
+                "number": "1234567",
+                "citycode": "1",
+                "contrycode": "57"
+                }
+                ]
+                }
+                """;
+
+        mockMvc.perform(post("/usuarios").contentType(MediaType.APPLICATION_JSON)
+                        .content(json))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.mensaje").value("La clave es invalida"));
+    }
 }
