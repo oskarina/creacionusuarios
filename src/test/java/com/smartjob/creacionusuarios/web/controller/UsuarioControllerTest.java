@@ -74,4 +74,30 @@ public class UsuarioControllerTest {
                         .content(json))
                 .andExpect(status().isBadRequest());
     }
+
+    @Test
+    void testCreacionDuplicado() throws Exception {
+        String json = """
+                {
+                "name": "Juan Rodriguez",
+                "email": "juan@rodriguez.org",
+                "password": "hunter2",
+                "phones": [
+                {
+                "number": "1234567",
+                "citycode": "1",
+                "contrycode": "57"
+                }
+                ]
+                }
+                """;
+        mockMvc.perform(post("/usuarios").contentType(MediaType.APPLICATION_JSON)
+                        .content(json))
+                .andExpect(status().isOk());
+
+        mockMvc.perform(post("/usuarios").contentType(MediaType.APPLICATION_JSON)
+                        .content(json))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.mensaje").value("El correo ya está registrado"));
+    }
 }
