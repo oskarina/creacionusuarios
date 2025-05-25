@@ -2,6 +2,7 @@ package com.smartjob.creacionusuarios.web.repository;
 
 import com.smartjob.creacionusuarios.domain.repository.UsuarioRepository;
 import com.smartjob.creacionusuarios.persistence.dto.Usuario;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -22,6 +23,11 @@ public class UsuarioRepositoryTest {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+    @BeforeEach
+    void limpiarBD() {
+        usuarioRepository.deleteAll();
+    }
 
     @Test
     public void testGuardarUsuario() {
