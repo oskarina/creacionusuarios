@@ -53,3 +53,15 @@ Buscar en Log el nombre de la BD
 En este caso estos el connection string es:
 
 jdbc:h2:mem:084f8593-8b72-4b25-a56a-02e11155578d
+
+# Prueba Ok
+
+![Caso OK](ok.png)
+
+# Prueba Error - Duplicado
+
+![Caso DUPLICADO](duplicado.png)
+
+# Prueba Error - Correo Invalido
+
+![Caso CORREOINVALIDO](correoinvalido.png)
