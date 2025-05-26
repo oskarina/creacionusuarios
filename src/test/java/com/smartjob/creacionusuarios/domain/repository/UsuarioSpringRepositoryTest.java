@@ -35,7 +35,8 @@ public class UsuarioSpringRepositoryTest {
         UsuarioEntity usuario = new UsuarioEntity();
         usuario.setName("Juan Rodriguez");
         usuario.setEmail("Juan@rodriguez.org");
-        usuario.setPassword("hunter2");
+        usuario.setToken("TOKEN");
+        usuario.setRestId(1L);
 
         usuarioSpringRepository.save(usuario);
 
@@ -54,20 +55,21 @@ public class UsuarioSpringRepositoryTest {
         UsuarioEntity usuario = new UsuarioEntity();
         usuario.setName("Juan Rodriguez");
         usuario.setEmail("Juan@rodriguez.org");
-        usuario.setPassword("hunter2");
+        usuario.setToken("TOKEN");
+        usuario.setRestId(1L);
 
         UsuarioEntity duplicado = new UsuarioEntity();
-        usuario.setName("Carlos Perez");
-        usuario.setEmail("Juan@rodriguez.org");
-        usuario.setPassword("hunter2");
-
+        duplicado.setName("Carlos Perez");
+        duplicado.setEmail("Juan@rodriguez.org");
+        duplicado.setToken("TOKEN");
+        duplicado.setRestId(1L);
         usuarioSpringRepository.save(usuario);
 
         Exception exception = assertThrows(DataIntegrityViolationException.class, () -> {
             usuarioSpringRepository.save(duplicado);
         });
 
-        String expectedMessage = "EMAIL";
+        String expectedMessage = "email";
         String actualMessage = exception.getMessage();
 
         assertTrue(actualMessage.contains(expectedMessage));

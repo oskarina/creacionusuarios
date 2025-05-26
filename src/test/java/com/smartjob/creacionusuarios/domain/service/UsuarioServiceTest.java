@@ -9,7 +9,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
@@ -26,11 +25,10 @@ public class UsuarioServiceTest {
     @Test
     public void testCrearUsuarioService() {
 
-        Telefono telefono = new Telefono(1L, "7789123", "11", "54");
-        UUID id = UUID.randomUUID();
-        Usuario modelo = new Usuario(id, "Carlos Perez", "carlos.perez@gmail.com", "hunter3", telefono);
+        Telefono telefono = new Telefono("7789123", "11", "54");
+        Usuario modelo = new Usuario(1L, "Carlos Perez", "carlos.perez@gmail.com", "hunter3", telefono);
 
-        Usuario modeloResponse = new Usuario(true, "token", LocalDateTime.now(), LocalDateTime.now(), LocalDateTime.now(), "hunter3", "carlos.perez@gmail.com", "Carlos Perez", id, telefono);
+        Usuario modeloResponse = new Usuario(true, "token", LocalDateTime.now(), LocalDateTime.now(), LocalDateTime.now(), "carlos.perez@gmail.com", "Carlos Perez", 1L, telefono);
 
         when(repository.save(modelo)).thenReturn(modeloResponse);
 

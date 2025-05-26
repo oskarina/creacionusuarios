@@ -27,9 +27,6 @@ public class UsuarioEntity {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false)
-    private String password;
-
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TelefonoEntity> telefonos = new ArrayList<>(10);
 
@@ -46,11 +43,12 @@ public class UsuarioEntity {
     public UsuarioEntity() {
     }
 
-    public UsuarioEntity(Long restId, String name, String email, String password) {
+    public UsuarioEntity(Long restId, String name, String email, String token, boolean isActive) {
         this.restId = restId;
         this.name = name;
         this.email = email;
-        this.password = password;
+        this.token = token;
+        this.isActive = isActive;
     }
 
     public void addTelefono(TelefonoEntity telefono) {
@@ -60,12 +58,17 @@ public class UsuarioEntity {
 
     @Override
     public String toString() {
-        return "Usuario{" +
+        return "UsuarioEntity{" +
                 "id=" + id +
+                ", restId=" + restId +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
                 ", telefonos=" + telefonos +
+                ", created=" + created +
+                ", modified=" + modified +
+                ", lastLogin=" + lastLogin +
+                ", token='" + token + '\'' +
+                ", isActive=" + isActive +
                 '}';
     }
 
@@ -91,14 +94,6 @@ public class UsuarioEntity {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public List<TelefonoEntity> getTelefonos() {

@@ -28,17 +28,17 @@ public class Usuario {
         this.isActive = true;
     }
 
-    public Usuario(Boolean isActive, String token, LocalDateTime lastLogin, LocalDateTime modified, LocalDateTime created, String password, String email, String name, Long id, Telefono... telefonos) {
+    public Usuario(Boolean isActive, String token, LocalDateTime lastLogin, LocalDateTime modified, LocalDateTime created, String email, String name, Long id, Telefono... telefonos) {
         this.isActive = isActive;
         this.token = token;
         this.lastLogin = lastLogin;
         this.modified = modified;
         this.created = created;
-        this.password = password;
         this.email = email;
         this.name = name;
         this.id = id;
         this.telefonos = List.of(telefonos);
+        this.password = null;
     }
 
     public Long getId() {

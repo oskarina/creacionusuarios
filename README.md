@@ -24,18 +24,20 @@ Utilizar Postman para ejecutar el
 POST a http://localhost:8080/usuarios
 
 ´
-{
+curl --location 'http://localhost:8080/usuarios' \
+--header 'Content-Type: application/json' \
+--data-raw '{
 "name": "Juan Rodriguez",
 "email": "juan@rodriguez.org",
 "password": "hunter2",
 "phones": [
 {
 "number": "1234567",
-"citycode": "1",
-"contrycode": "57"
+"cityCode": "1",
+"countryCode": "57"
 }
 ]
-}
+}'
 ´
 
 Si lo ejecutas por segunda vez deberias obtener error.

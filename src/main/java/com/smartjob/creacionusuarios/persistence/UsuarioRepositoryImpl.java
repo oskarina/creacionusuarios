@@ -5,9 +5,8 @@ import com.smartjob.creacionusuarios.domain.model.Usuario;
 import com.smartjob.creacionusuarios.domain.repository.UsuarioRepository;
 import com.smartjob.creacionusuarios.persistence.dto.TelefonoEntity;
 import com.smartjob.creacionusuarios.persistence.dto.UsuarioEntity;
+import com.smartjob.creacionusuarios.utils.Md5Generator;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Component
 public class UsuarioRepositoryImpl implements UsuarioRepository {
@@ -20,15 +19,21 @@ public class UsuarioRepositoryImpl implements UsuarioRepository {
 
     @Override
     public Usuario save(Usuario usuario) {
-        UsuarioEntity usuarioEntidad = new UsuarioEntity(1L, usuario.getName(), usuario.getEmail(), usuario.getPassword());
+        var usuarioEntidad = new UsuarioEntity(
+                1L,
+                usuario.getName(),
+                usuario.getEmail(),
+                Md5Generator.generateMd5(usuario.getPassword()),
+                true
+        );
 
-        List<TelefonoEntity> telefonosEntities = usuario.getTelefonos().stream().map(tm ->
+        var telefonosEntities = usuario.getTelefonos().stream().map(tm ->
                 fromModel(tm, usuarioEntidad)
         ).toList();
 
         telefonosEntities.forEach(usuarioEntidad::addTelefono);
 
-        UsuarioEntity usuarioGuardado = repository.save(usuarioEntidad);
+        var usuarioGuardado = repository.save(usuarioEntidad);
 
         return toModel(usuarioGuardado);
     }
@@ -38,17 +43,16 @@ public class UsuarioRepositoryImpl implements UsuarioRepository {
     }
 
     private Usuario toModel(UsuarioEntity usuarioGuardado) {
-        List<Telefono> telefonos = usuarioGuardado.getTelefonos().stream().map(
+        var telefonos = usuarioGuardado.getTelefonos().stream().map(
                 this::toModel
         ).toList();
 
         return new Usuario(
-                true,
+                usuarioGuardado.getActive(),
                 usuarioGuardado.getToken(),
                 usuarioGuardado.getLastLogin(),
                 usuarioGuardado.getModified(),
                 usuarioGuardado.getCreated(),
-                usuarioGuardado.getPassword(),
                 usuarioGuardado.getEmail(),
                 usuarioGuardado.getName(),
                 usuarioGuardado.getRestId(),
