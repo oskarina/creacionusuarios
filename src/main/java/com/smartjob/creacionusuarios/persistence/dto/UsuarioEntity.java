@@ -2,13 +2,14 @@ package com.smartjob.creacionusuarios.persistence.dto;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 @Entity
 @Table(name = "usuarios")
-public class Usuario {
+public class UsuarioEntity {
     @Id
     @GeneratedValue
     private UUID id;
@@ -23,27 +24,22 @@ public class Usuario {
     private String password;
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Telefono> telefonos = new ArrayList<>();
+    private List<TelefonoEntity> telefonos = new ArrayList<>();
 
-    public Usuario() {
+    private LocalDateTime created;
+    private LocalDateTime modified;
+    private LocalDateTime lastLogin;
+    private String token;
+    private Boolean isActive;
+
+    public UsuarioEntity() {
     }
 
-    public Usuario(UUID id, String name, String email, String password, List<Telefono> telefonos) {
+    public UsuarioEntity(UUID id, String name, String email, String password) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
-        this.telefonos = telefonos;
-    }
-
-    public void addTelefono(Telefono telefono) {
-        telefonos.add(telefono);
-        telefono.setUsuario(this);
-    }
-
-    public void removeTelefono(Telefono telefono) {
-        telefonos.remove(telefono);
-        telefono.setUsuario(null);
     }
 
     @Override
@@ -89,11 +85,51 @@ public class Usuario {
         this.password = password;
     }
 
-    public List<Telefono> getTelefonos() {
+    public List<TelefonoEntity> getTelefonos() {
         return telefonos;
     }
 
-    public void setTelefonos(List<Telefono> telefonos) {
+    public void setTelefonos(List<TelefonoEntity> telefonos) {
         this.telefonos = telefonos;
+    }
+
+    public LocalDateTime getCreated() {
+        return created;
+    }
+
+    public void setCreated(LocalDateTime created) {
+        this.created = created;
+    }
+
+    public LocalDateTime getModified() {
+        return modified;
+    }
+
+    public void setModified(LocalDateTime modified) {
+        this.modified = modified;
+    }
+
+    public LocalDateTime getLastLogin() {
+        return lastLogin;
+    }
+
+    public void setLastLogin(LocalDateTime lastLogin) {
+        this.lastLogin = lastLogin;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public Boolean getActive() {
+        return isActive;
+    }
+
+    public void setActive(Boolean active) {
+        isActive = active;
     }
 }

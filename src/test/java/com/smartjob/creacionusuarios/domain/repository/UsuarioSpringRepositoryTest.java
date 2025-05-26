@@ -1,6 +1,7 @@
 package com.smartjob.creacionusuarios.domain.repository;
 
-import com.smartjob.creacionusuarios.persistence.dto.Usuario;
+import com.smartjob.creacionusuarios.persistence.UsuarioSpringRepository;
+import com.smartjob.creacionusuarios.persistence.dto.UsuarioEntity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,29 +19,29 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DataJpaTest
 @Transactional(propagation = Propagation.NOT_SUPPORTED) // permite que flush lance el error
-public class UsuarioRepositoryTest {
+public class UsuarioSpringRepositoryTest {
 
     @Autowired
-    private UsuarioRepository usuarioRepository;
+    private UsuarioSpringRepository usuarioSpringRepository;
 
     @BeforeEach
     void limpiarBD() {
-        usuarioRepository.deleteAll();
+        usuarioSpringRepository.deleteAll();
     }
 
     @Test
     public void testGuardarUsuario() {
         // given
-        Usuario usuario = new Usuario();
+        UsuarioEntity usuario = new UsuarioEntity();
         usuario.setName("Juan Rodriguez");
         usuario.setEmail("Juan@rodriguez.org");
         usuario.setPassword("hunter2");
 
-        usuarioRepository.save(usuario);
+        usuarioSpringRepository.save(usuario);
 
         // when
-        Iterable<Usuario> encontrados = usuarioRepository.findAll();
-        Optional<Usuario> encontrado = StreamSupport.stream(encontrados.spliterator(), false).findFirst();
+        Iterable<UsuarioEntity> encontrados = usuarioSpringRepository.findAll();
+        Optional<UsuarioEntity> encontrado = StreamSupport.stream(encontrados.spliterator(), false).findFirst();
 
         // then
         assertThat(encontrado).isPresent();
@@ -50,20 +51,20 @@ public class UsuarioRepositoryTest {
     @Test
     public void testGuardarUsuarioDuplicado() {
         // given
-        Usuario usuario = new Usuario();
+        UsuarioEntity usuario = new UsuarioEntity();
         usuario.setName("Juan Rodriguez");
         usuario.setEmail("Juan@rodriguez.org");
         usuario.setPassword("hunter2");
 
-        Usuario duplicado = new Usuario();
+        UsuarioEntity duplicado = new UsuarioEntity();
         usuario.setName("Carlos Perez");
         usuario.setEmail("Juan@rodriguez.org");
         usuario.setPassword("hunter2");
 
-        usuarioRepository.save(usuario);
+        usuarioSpringRepository.save(usuario);
 
         Exception exception = assertThrows(DataIntegrityViolationException.class, () -> {
-            usuarioRepository.save(duplicado);
+            usuarioSpringRepository.save(duplicado);
         });
 
         String expectedMessage = "EMAIL";

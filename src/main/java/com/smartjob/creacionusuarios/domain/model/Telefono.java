@@ -5,7 +5,13 @@ public class Telefono {
     private String number;
     private String cityCode;
     private String countryCode;
-    private Usuario usuario;
+
+    public Telefono(Long id, String number, String cityCode, String countryCode) {
+        this.id = id;
+        this.number = number;
+        this.cityCode = cityCode;
+        this.countryCode = countryCode;
+    }
 
     public Long getId() {
         return id;
@@ -37,13 +43,5 @@ public class Telefono {
 
     public void setCountryCode(String countryCode) {
         this.countryCode = countryCode;
-    }
-
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
     }
 }
