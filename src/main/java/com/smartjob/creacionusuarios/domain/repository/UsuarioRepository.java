@@ -4,4 +4,6 @@ import com.smartjob.creacionusuarios.domain.model.Usuario;
 
 public interface UsuarioRepository {
     Usuario save(Usuario usuario);
+
+    Long topId();
 }

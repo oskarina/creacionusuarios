@@ -11,7 +11,6 @@ import org.mockito.MockitoAnnotations;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -32,12 +31,11 @@ public class UsuarioRepositoryImplTest {
     @Test
     public void testSaveUsuario() {
         // Arrange
-        UUID id = UUID.randomUUID();
-        Telefono telefono = new Telefono(1L, "7789123", "11", "54");
-        Usuario usuarioModel = new Usuario(id, "Carlos Perez", "carlos.perez@gmail.com", "hunter3", telefono);
+        Telefono telefono = new Telefono("7789123", "11", "54");
+        Usuario usuarioModel = new Usuario(1L, "Carlos Perez", "carlos.perez@gmail.com", "hunter3", telefono);
 
-        UsuarioEntity usuarioEntity = new UsuarioEntity(id, "Carlos Perez", "carlos.perez@gmail.com", "hunter3");
-        TelefonoEntity telefonoEntity = new TelefonoEntity(1L, "7789123", "11", "54", usuarioEntity);
+        UsuarioEntity usuarioEntity = new UsuarioEntity(1L, "Carlos Perez", "carlos.perez@gmail.com", "hunter3");
+        TelefonoEntity telefonoEntity = new TelefonoEntity("7789123", "11", "54", usuarioEntity);
         usuarioEntity.setTelefonos(List.of(telefonoEntity));
 
         // Simula lo que devuelve el repositorio al guardar

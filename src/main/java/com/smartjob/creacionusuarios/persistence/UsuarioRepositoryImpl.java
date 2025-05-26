@@ -20,13 +20,21 @@ public class UsuarioRepositoryImpl implements UsuarioRepository {
 
     @Override
     public Usuario save(Usuario usuario) {
-        UsuarioEntity usuarioEntidad = new UsuarioEntity(usuario.getId(), usuario.getName(), usuario.getEmail(), usuario.getPassword());
-        List<TelefonoEntity> telefonosEntities = usuario.getTelefonos().stream().map(tm -> fromModel(tm, usuarioEntidad)).toList();
-        usuarioEntidad.setTelefonos(telefonosEntities);
+        UsuarioEntity usuarioEntidad = new UsuarioEntity(1L, usuario.getName(), usuario.getEmail(), usuario.getPassword());
+
+        List<TelefonoEntity> telefonosEntities = usuario.getTelefonos().stream().map(tm ->
+                fromModel(tm, usuarioEntidad)
+        ).toList();
+
+        telefonosEntities.forEach(usuarioEntidad::addTelefono);
 
         UsuarioEntity usuarioGuardado = repository.save(usuarioEntidad);
 
         return toModel(usuarioGuardado);
+    }
+
+    public Long topId() {
+        return repository.findTopByOrderByRestIdDesc().map(UsuarioEntity::getRestId).orElse(0L);
     }
 
     private Usuario toModel(UsuarioEntity usuarioGuardado) {
@@ -35,7 +43,7 @@ public class UsuarioRepositoryImpl implements UsuarioRepository {
         ).toList();
 
         return new Usuario(
-                usuarioGuardado.getActive(),
+                true,
                 usuarioGuardado.getToken(),
                 usuarioGuardado.getLastLogin(),
                 usuarioGuardado.getModified(),
@@ -43,14 +51,13 @@ public class UsuarioRepositoryImpl implements UsuarioRepository {
                 usuarioGuardado.getPassword(),
                 usuarioGuardado.getEmail(),
                 usuarioGuardado.getName(),
-                usuarioGuardado.getId(),
+                usuarioGuardado.getRestId(),
                 telefonos.toArray(new Telefono[0])
         );
     }
 
     private Telefono toModel(TelefonoEntity te) {
         return new Telefono(
-                te.getId(),
                 te.getNumber(),
                 te.getCityCode(),
                 te.getCountryCode());
@@ -58,9 +65,8 @@ public class UsuarioRepositoryImpl implements UsuarioRepository {
 
     public TelefonoEntity fromModel(Telefono telefono, UsuarioEntity usuario) {
         return new TelefonoEntity(
-                telefono.getId(),
+                telefono.getNumber(),
                 telefono.getCityCode(),
-                telefono.getCountryCode(),
                 telefono.getCountryCode(),
                 usuario
         );

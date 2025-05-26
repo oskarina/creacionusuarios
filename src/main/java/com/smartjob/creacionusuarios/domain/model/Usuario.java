@@ -2,10 +2,9 @@ package com.smartjob.creacionusuarios.domain.model;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 
 public class Usuario {
-    private final UUID id;
+    private final Long id;
     private final String name;
     private final String email;
     private final String password;
@@ -16,7 +15,7 @@ public class Usuario {
     private final String token;
     private final Boolean isActive;
 
-    public Usuario(UUID id, String name, String email, String password, Telefono... telefonos) {
+    public Usuario(Long id, String name, String email, String password, Telefono... telefonos) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -29,7 +28,7 @@ public class Usuario {
         this.isActive = true;
     }
 
-    public Usuario(Boolean isActive, String token, LocalDateTime lastLogin, LocalDateTime modified, LocalDateTime created, String password, String email, String name, UUID id, Telefono... telefonos) {
+    public Usuario(Boolean isActive, String token, LocalDateTime lastLogin, LocalDateTime modified, LocalDateTime created, String password, String email, String name, Long id, Telefono... telefonos) {
         this.isActive = isActive;
         this.token = token;
         this.lastLogin = lastLogin;
@@ -42,7 +41,7 @@ public class Usuario {
         this.telefonos = List.of(telefonos);
     }
 
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 

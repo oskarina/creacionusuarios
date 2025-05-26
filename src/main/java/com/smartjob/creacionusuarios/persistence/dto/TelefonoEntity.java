@@ -29,8 +29,7 @@ public class TelefonoEntity {
     public TelefonoEntity() {
     }
 
-    public TelefonoEntity(Long id, String number, String cityCode, String countryCode, UsuarioEntity usuario) {
-        this.id = id;
+    public TelefonoEntity(String number, String cityCode, String countryCode, UsuarioEntity usuario) {
         this.number = number;
         this.cityCode = cityCode;
         this.countryCode = countryCode;

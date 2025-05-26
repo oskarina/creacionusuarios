@@ -16,4 +16,8 @@ public class UsuarioService {
     public Usuario create(Usuario modelo) {
         return repository.save(modelo);
     }
+
+    public Long generateId() {
+        return repository.topId() + 1;
+    }
 }

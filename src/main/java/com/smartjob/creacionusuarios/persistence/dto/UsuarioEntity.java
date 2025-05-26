@@ -1,6 +1,9 @@
 package com.smartjob.creacionusuarios.persistence.dto;
 
 import jakarta.persistence.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -9,10 +12,14 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "usuarios")
+@EntityListeners(AuditingEntityListener.class)
 public class UsuarioEntity {
     @Id
     @GeneratedValue
     private UUID id;
+
+    @Column(nullable = false, unique = true)
+    private Long restId;
 
     @Column(nullable = false)
     private String name;
@@ -24,10 +31,14 @@ public class UsuarioEntity {
     private String password;
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<TelefonoEntity> telefonos = new ArrayList<>();
+    private List<TelefonoEntity> telefonos = new ArrayList<>(10);
 
+    @CreatedDate
     private LocalDateTime created;
+
+    @LastModifiedDate
     private LocalDateTime modified;
+
     private LocalDateTime lastLogin;
     private String token;
     private Boolean isActive;
@@ -35,11 +46,16 @@ public class UsuarioEntity {
     public UsuarioEntity() {
     }
 
-    public UsuarioEntity(UUID id, String name, String email, String password) {
-        this.id = id;
+    public UsuarioEntity(Long restId, String name, String email, String password) {
+        this.restId = restId;
         this.name = name;
         this.email = email;
         this.password = password;
+    }
+
+    public void addTelefono(TelefonoEntity telefono) {
+        telefono.setUsuario(this);
+        this.telefonos.add(telefono);
     }
 
     @Override
@@ -131,5 +147,13 @@ public class UsuarioEntity {
 
     public void setActive(Boolean active) {
         isActive = active;
+    }
+
+    public Long getRestId() {
+        return restId;
+    }
+
+    public void setRestId(Long restId) {
+        this.restId = restId;
     }
 }
